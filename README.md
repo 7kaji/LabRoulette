@@ -1,7 +1,7 @@
 **使い方**
 
     $ pry
-    [1] pry(main)> require '.roulette.rb'=> true
+    [1] pry(main)> require './roulette.rb'=> true
     [2] pry(main)> %w(okutsu sugawara nakajima fujii).roulette
     ...Okutsu,  9 点。
     ...Sugawara,  3 点。
@@ -11,3 +11,6 @@
     => true
 
 pry は irb でもおｋです。
+
+*環境*  
+* MacOS X 10.8.3 (afplay, say コマンド)
