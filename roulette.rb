@@ -27,17 +27,16 @@ class Array
     puts kyoko = "#{outman.first[:name].to_s.capitalize}ーーー。アウトーーー。"
     system("afplay gaki.mp3")
     system("say #{kyoko}")
-  end
-
+  end 
 end
 
-case ARGV[0]
+case ARGV[0] 
   when "M2"
-    year = %w(okutsu sugawara nakajima fujii)
+    year = %w(おくつ すがわら なかじま ふじい)
   when "M1"
-    year = %w(takemichi komatsu furudate)
+    year = %w(たけみち こまつ ふるだて)
   when "B4"
-    year = %w(okutomo katoh inoue abe nakamura hiraga maita kadowaki hoshi yaginuma)
+    year = %w(おくとも かとう いのうえ あべ なかむら ひらが まいた かどわき ほし やぎぬま)
   else
     year = %w()
 end
