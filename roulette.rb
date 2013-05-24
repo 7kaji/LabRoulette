@@ -31,3 +31,16 @@ class Array
 
 end
 
+case ARGV[0]
+  when "M2"
+    year = %w(okutsu sugawara nakajima fujii)
+  when "M1"
+    year = %w(takemichi komatsu furudate)
+  when "B4"
+    year = %w(okutomo katoh inoue abe nakamura hiraga maita kadowaki hoshi yaginuma)
+  else
+    year = %w()
+end
+
+year.roulette if ARGV[0]
+
