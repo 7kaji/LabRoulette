@@ -13,10 +13,10 @@
 - say(1) 
 
 ##Requirement(Optional)
-Installation is required for Japan to voice(Kyoko).
+Installation is required for Japan to voice(Kyoko).  
 Step  
-1．「システム環境設定」→「音声入力と読み上げ」でテキスト読み上げタブを選択
-2．システムの声を選択肢、カスタマイズを選択
+1．「システム環境設定」→「音声入力と読み上げ」でテキスト読み上げタブを選択  
+2．システムの声を選択肢、カスタマイズを選択  
 2．日本語の「kyoko」を選択肢、ok
 
 ##TODO
