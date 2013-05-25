@@ -1,45 +1,48 @@
-class Array
-  def get_point
-    number = 0
-    number = rand(10) + 1
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+group  = { "M2" => %w(おくつ すがわら なかじま ふじい),
+           "M1" => %w(たけみち こまつ ふるだて),
+           "B4" => %w(おくとも かとう いのうえ あべ なかむら ひらが まいた かどわき ほし やぎぬま) }
+
+class Roulette 
+  def initialize members
+    @result  = Hash.new
+    @message = Hash.new
+    @members = Array.new(members)
   end
-
-  def roulette
-    return self if self.size <= 1
-
-    master = Hash.new
-    master = self.map do |p|
-      {
-        :name => p,
-        :point => get_point 
-      }
+  def start
+    @members.each do | member |
+      @result[member] = rand(10) + 1
     end
-
-    master.each do |p|
-      3.times do
-        print '.'
-        sleep 0.5
+    @result = @result.sort{|a, b| b[1] <=> a[1]}
+    self.speak
+  end
+  protected
+  def speak 
+    result = @result.dup
+    result.each_with_index do | elem, index |
+      3.times do 
+        print "."
+        sleep(0.5)
       end
-      puts kyoko = "#{p[:name].to_s.capitalize},  #{p[:point].to_s} 点。"
-      system("say #{kyoko}")
+        puts message = "#{elem.join(", ")}点。"
+        `/usr/bin/say #{message}`
+      if index == result.length - 1
+        threads = []
+        puts message = "#{elem[0]}" + "ーーー。アウトーーー。"
+        threads.push(Thread.new{`/usr/bin/afplay ./gaki.mp3`})
+        sleep(4)
+        threads.push(Thread.new{`/usr/bin/say #{message}`})
+        threads.each{|thread| thread.join}
+      end
     end
-    outman = master.sort{|a,b| a[:point] <=> b[:point]}
-    puts kyoko = "#{outman.first[:name].to_s.capitalize}ーーー。アウトーーー。"
-    system("afplay gaki.mp3")
-    system("say #{kyoko}")
-  end 
+  end
 end
 
-case ARGV[0] 
-  when "M2"
-    year = %w(おくつ すがわら なかじま ふじい)
-  when "M1"
-    year = %w(たけみち こまつ ふるだて)
-  when "B4"
-    year = %w(おくとも かとう いのうえ あべ なかむら ひらが まいた かどわき ほし やぎぬま)
-  else
-    year = %w()
+attr = ARGV[0] 
+if group.include?(attr)
+  Roulette.new(group[attr]).start
+else
+  Roulette.new($*).start
 end
-
-year.roulette if ARGV[0]
-
