@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 # -*- coding: eucjp -*-
 
+SAY    = "/usr/bin/say"
+PLAYER = "/usr/bin/afplay"
+BGM    = "./gaki.mp3"
+
 group  = { "M2" => %w(おくつ すがわら なかじま ふじい),
            "M1" => %w(たけみち こまつ ふるだて),
            "B4" => %w(おくとも かとう いのうえ あべ なかむら ひらが まいた かどわき ほし やぎぬま) }
@@ -13,7 +17,7 @@ class Roulette
       @result[member] = rand(10) + 1
     end
     @result = @result.sort{|a, b| b[1] <=> a[1]}
-    if File.exist?("/usr/bin/say")
+    if File.exist?("#{SAY}")
       speak
     end
     return @result
@@ -24,13 +28,13 @@ class Roulette
     result.each_with_index do | elem, index |
       3.times { print "."; sleep(0.5) }
       puts message = "#{elem.join(", ")}点。"
-      `/usr/bin/say #{message}`
+      `#{SAY} #{message}`
       if index == result.length - 1
         threads = []
         puts message = "#{elem[0]}" + "ーーー。アウトーーー。"
-        threads.push(Thread.new{`/usr/bin/afplay ./gaki.mp3`})
+        threads.push(Thread.new{`#{PLAYER} #{BGM}`})
         sleep(4)
-        threads.push(Thread.new{`/usr/bin/say #{message}`})
+        threads.push(Thread.new{`#{SAY} #{message}`})
         threads.each{|thread| thread.join}
       end
     end
