@@ -1,39 +1,40 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
+SAY    = "/usr/bin/say"
+PLAYER = "/usr/bin/afplay"
+BGM    = "./gaki.mp3"
+
 group  = { "M2" => %w(おくつ すがわら なかじま ふじい),
            "M1" => %w(たけみち こまつ ふるだて),
            "B4" => %w(おくとも かとう いのうえ あべ なかむら ひらが まいた かどわき ほし やぎぬま) }
 
 class Roulette 
-  def initialize members
-    @result  = Hash.new
-    @message = Hash.new
-    @members = Array.new(members)
-  end
-  def start
+  def self.start members
+    @result = Hash.new
+    @members = members
     @members.each do | member |
-      @result[member] = rand(10) + 1
+      @result[member] = rand(100) + 1
     end
     @result = @result.sort{|a, b| b[1] <=> a[1]}
-    self.speak
+    if File.exist?("#{SAY}")
+      #speak
+    end
+    return @result.last[0]
   end
-  protected
-  def speak 
+  private
+  def self.speak 
     result = @result.dup
     result.each_with_index do | elem, index |
-      3.times do 
-        print "."
-        sleep(0.5)
-      end
-        puts message = "#{elem.join(", ")}点。"
-        `/usr/bin/say #{message}`
+      3.times { print "."; sleep(0.5) }
+      puts message = "#{elem.join(", ")}点。"
+      `#{SAY} #{message}`
       if index == result.length - 1
         threads = []
         puts message = "#{elem[0]}" + "ーーー。アウトーーー。"
-        threads.push(Thread.new{`/usr/bin/afplay ./gaki.mp3`})
+        threads.push(Thread.new{`#{PLAYER} #{BGM}`})
         sleep(4)
-        threads.push(Thread.new{`/usr/bin/say #{message}`})
+        threads.push(Thread.new{`#{SAY} #{message}`})
         threads.each{|thread| thread.join}
       end
     end
@@ -41,8 +42,15 @@ class Roulette
 end
 
 attr = ARGV[0] 
+result = Hash.new(0)
 if group.include?(attr)
-  Roulette.new(group[attr]).start
+  10000.times do
+  result[(Roulette.start(group[attr]))] += 1
+  end
+  result.each{|key,val|
+    print "#{key}: #{val}\n"
+  }
+
 else
-  Roulette.new($*).start
+  p Roulette.start($*)
 end
