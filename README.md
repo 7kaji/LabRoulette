@@ -3,7 +3,7 @@
 
     $ git clone https://github.com/whitech0c0/LabRoulette.git
     $ cd LabRoulette
-    $ ruby roulette.rb M2
+    $ ./roulette.rb M2
     
 引数は M2の他に M1, B4 を指定することができます。
 

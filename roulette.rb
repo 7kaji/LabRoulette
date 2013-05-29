@@ -18,9 +18,9 @@ class Roulette
     end
     @result = @result.sort{|a, b| b[1] <=> a[1]}
     if File.exist?("#{SAY}")
-      #speak
+      speak
     end
-    return @result.last[0]
+    return @result
   end
   private
   def self.speak 
@@ -42,15 +42,8 @@ class Roulette
 end
 
 attr = ARGV[0] 
-result = Hash.new(0)
 if group.include?(attr)
-  10000.times do
-  result[(Roulette.start(group[attr]))] += 1
-  end
-  result.each{|key,val|
-    print "#{key}: #{val}\n"
-  }
-
+  Roulette.start(group[attr])
 else
-  p Roulette.start($*)
+  Roulette.start($*)
 end
