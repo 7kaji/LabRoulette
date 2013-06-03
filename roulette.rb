@@ -14,7 +14,7 @@ class Roulette
     @result = Hash.new
     @members = members
     @members.each do | member |
-      @result[member] = rand(100) + 1
+      @result[member] = rand(10) + 1
     end
     @result = @result.sort{|a, b| b[1] <=> a[1]}
     if File.exist?("#{SAY}")
